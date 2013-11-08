@@ -89,7 +89,10 @@ initWatcher = (config, callback) ->
 
   each watched, exists, (err, existing) ->
     watchedFiles = watched.filter((_, index) -> existing[index])
-    params = ignored: fs_utils.ignored, persistent: config.persistent
+    params = config.chokidar || {}
+    params.ignored = fs_utils.ignored
+    params.persistent = config.persistent
+
     callback null, chokidar.watch watchedFiles, params
 
 # Generate function that will check if plugin can work with file.
